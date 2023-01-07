@@ -33,7 +33,7 @@ console.log(density(p,t)) // prints 864.2486339111406
 console.log(massPercent(d,t)) // prints 0.5709979995228677
 ````
 ### Errors
-`mass_percent` will throw an error if the underlying implementation of the Newton-Raphson method fails to converge within 20 iterations. Assuming that the density, <var>d</var>, and temperature, <var>t</var>, fall within the appropriate bounds (see [Valid Ranges](###valid-ranges)) convergence can be essentially guarenteed (see [tests]() and [Testing](#test)).
+`mass_percent` will throw an error if the underlying implementation of the Newton-Raphson method fails to converge within 20 iterations. Assuming that the density, <var>d</var>, and temperature, <var>t</var>, fall within the appropriate bounds (see [Valid Ranges](###valid-ranges)) convergence can be essentially guarenteed (see [tests](https://github.com/alpacahaircut/alcoholometry-core/test) and [Testing](##testing)).
 
 
 ## Building
@@ -42,7 +42,7 @@ $ git clone https://github.com/alpacahaircut/alcoholometry-core
 $ cd alcoholometry-core
 $ npm run build
 ````
-##Testing
+## Testing
 ```bash
 $ npm test
 ```
