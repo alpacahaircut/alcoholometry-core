@@ -1,6 +1,5 @@
-const nrm = require('newton-raphson-method');
 
-//coeffeicients for OMIL function
+//coeffeicients for OMIL density function
 const COEFFICIENTS = [
   [
       1.285617841998974e3,  //C_1,11 kg/(㎥ ⋅ °C)
@@ -97,7 +96,7 @@ const D_COEFFICIENTS = COEFFICIENTS.slice(0,11)
 *
 * @returns the value of polynomial, p, at v, i.e. p(v)
 */
-function poly_eval(coeffs:number[], v:number):number{
+function polyEval(coeffs:number[], v:number):number{
   return coeffs.reduce((acc,val) => acc*v+val, 0)
 }
 
@@ -115,9 +114,9 @@ function poly_eval(coeffs:number[], v:number):number{
 * @returns the density of the solution in kg/㎥      
 */
 export function density(p:number, t: number):number{
-  return poly_eval(
+  return polyEval(
     COEFFICIENTS.map(
-      (row) => poly_eval(row, t-20)
+      (row) => polyEval(row, t-20)
     ),
   p)
 }
@@ -134,10 +133,10 @@ export function density(p:number, t: number):number{
 * @returns the infinitessimal change in density of the solution in kg/㎥      
 */
 
-function d_density(p: number, t: number):number{
-  return poly_eval(
+function dDensity(p: number, t: number):number{
+  return polyEval(
     D_COEFFICIENTS.map(
-      (row) => poly_eval(row,t-20)
+      (row) => polyEval(row,t-20)
     ),
     p
   )
@@ -151,12 +150,30 @@ function d_density(p: number, t: number):number{
 * @param d - the density of ethanol solution in kg/㎥ (should be between 771.93 and 999.97, inclusive, to be valid)
 * @param t - the temperature of the solution in °C (should be bewteen -20 and 40, inclusive, to be valid)    
 *
-* @returns the infinetesimal change in density of the solution in kg/㎥      
+* @returns the infinetesimal change in density of the solution in kg/㎥ 
+* 
+* @throws Error if Newton-Raphson fails to converge      
 */
-export function mass_percent(d:number, t:number):number{
-  return nrm(
-      (m:number) => density(m, t) - d,
-      (m:number) => d_density(m, t),
-      .5,
-  )
+export function massPercent(d:number, t:number):number{
+  //Max number of iterations of Newton-Raphson before we error out
+  const maxIters = 20;
+  //Threshold for testing convergence: |x1-x0|<threshold => convergence 
+  const threshold = 1e-9;
+  
+  //Initial Guess
+  let x0 = .5;
+  let x1 = 0;
+  for(let i = 0; i<maxIters; i++){
+    //nrm main step
+    x1 = x0 - (density(x0,t) - d) / dDensity(x0,t)
+    
+    //check for convergence
+    if(Math.abs(x1 - x0) < threshold){
+      return x1
+    }
+    //Update Guess
+    x0 = x1;
+  }
+
+  throw new Error("[alcoholometry-core] massPercent failed to converge within 20 steps. Are d and t in the appropriate ranges?See https://github.com/alpacahaircut/alcoholometry-core/README.md for details.")
 }
