@@ -33,11 +33,12 @@
     },
     "module":"dist/alcoholometry-core.esm.js",
     "size-limit":[
-        {"path":"dist/alcoholometry-core.js.cjs.production.min.js",
-        "limit":"10 KB"
+        {
+            "path":"dist/alcoholometry-core.cjs.production.min.js",
+            "limit":"10 KB"
         },
         {
-            "path":"dist/alcoholometry-core.js.esm.js",
+            "path":"dist/alcoholometry-core.esm.js",
             "limit":"10 KB"
         }
     ],
