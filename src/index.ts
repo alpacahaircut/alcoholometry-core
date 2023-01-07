@@ -153,7 +153,7 @@ function d_density(p: number, t: number):number{
 *
 * @returns the infinetesimal change in density of the solution in kg/㎥      
 */
-export function percent_mass(d:number, t:number):number{
+export function mass_percent(d:number, t:number):number{
   return nrm(
       (m:number) => density(m, t) - d,
       (m:number) => d_density(m, t),
