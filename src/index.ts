@@ -114,7 +114,7 @@ function poly_eval(coeffs:number[], v:number):number{
 *
 * @returns the density of the solution in kg/㎥      
 */
-export function oiml(p:number, t: number):number{
+export function density(p:number, t: number):number{
   return poly_eval(
     COEFFICIENTS.map(
       (row) => poly_eval(row, t-20)
@@ -123,7 +123,7 @@ export function oiml(p:number, t: number):number{
 }
 
 /*
-* Computes the partial derivitive of the oiml function
+* Computes the partial derivitive of the `density` function
 * with respect to the mass/mass ratio of the solution
 *
 * @note this is a utility function to use with Newton-Raphson method to compute inverse to the main oiml function
@@ -134,7 +134,7 @@ export function oiml(p:number, t: number):number{
 * @returns the infinitessimal change in density of the solution in kg/㎥      
 */
 
-function doiml(p: number, t: number):number{
+function d_density(p: number, t: number):number{
   return poly_eval(
     D_COEFFICIENTS.map(
       (row) => poly_eval(row,t-20)
@@ -148,15 +148,15 @@ function doiml(p: number, t: number):number{
 * Uses Newton-Raphson method to compute the mass/mass ratio
 * of an aqueous solution of ethanol given a density and temperature
 * 
-* @param density - the density of ethanol solution in kg/㎥ (should be between 0 and 1, inclusive, to be valid)
+* @param d - the density of ethanol solution in kg/㎥ (should be between 771.93 and 999.97, inclusive, to be valid)
 * @param t - the temperature of the solution in °C (should be bewteen -20 and 40, inclusive, to be valid)    
 *
 * @returns the infinetesimal change in density of the solution in kg/㎥      
 */
-export function oiml_inverse(density:number, t:number):number{
+export function percent_mass(d:number, t:number):number{
   return nrm(
-      (m:number) => oiml(m, t) - density,
-      (m:number) => doiml(m, t),
+      (m:number) => density(m, t) - d,
+      (m:number) => d_density(m, t),
       .5,
   )
 }
