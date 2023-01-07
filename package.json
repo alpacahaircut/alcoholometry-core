@@ -5,7 +5,7 @@
     "repository": "github:alpacahaircut/alcoholometry-core",
     "website": "https://github.com/alpacahaircut/alcoholometry-core#readme",
     "bugs": "https://github.com/alpacahaircut/alcoholometry-core/issues",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
