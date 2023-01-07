@@ -2,11 +2,16 @@
     "name": "alcoholometry-core",
     "author": "David Platt <david.platt@protonmail.com>",
     "description": "Implementation of functions relating temperature, density and alcohol percent by mass for aquaous ethanol solutions, as per OIML r022-e75",
-    "keywords": ["alcoholometry", "ethanol", "density", "oiml"],
+    "keywords": [
+        "alcoholometry",
+        "ethanol",
+        "density",
+        "oiml"
+    ],
     "repository": "github:alpacahaircut/alcoholometry-core",
     "website": "https://github.com/alpacahaircut/alcoholometry-core#readme",
     "bugs": "https://github.com/alpacahaircut/alcoholometry-core/issues",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
